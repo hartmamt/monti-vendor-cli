@@ -17,9 +17,10 @@ program
  .option('--file <filename>', 'The name of the generated csv file.')
  .option('--csvpath <path to csv>', 'path to csv file')
  .option('--certificateDir <path to certificateDir>', 'path to certificateDir')
+ .option('--s3Url <url to s3 server>', 'url to s3 server')
  .action(function() {
-   console.log('connection: %s file: %s',
-       program.connection, program.file);
+  //  console.log('connection: %s file: %s',
+  //      program.connection, program.file);
  })
  .parse(process.argv)
 
@@ -40,7 +41,7 @@ const dbUrl = program.connection; //process.env.MONGODB_URI || 'mongodb://localh
         } else {
           certificates.map( (cert) => {
             var options = {
-                url: 'https://montivendor.s3.amazonaws.com/' + cert.url,
+                url: program.s3Url + cert.url,
                 dest: program.certificateDir,                  // Save to /path/to/dest/image.jpg
                 done: function(err, filename, image) {
                     if (err) {
